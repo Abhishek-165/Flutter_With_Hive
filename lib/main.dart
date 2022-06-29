@@ -1,4 +1,3 @@
-import 'package:databaseapp/services/extension.dart';
 import 'package:databaseapp/services/hive_provider.dart';
 import 'package:databaseapp/utils/helper.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +24,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-//  bool isLoading = true;
   @override
   void initState() {
     super.initState();
     HiveProvider().getDatabaseInstance();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    HiveProvider().getInstance().clear();
   }
 
   _buildListView() {
