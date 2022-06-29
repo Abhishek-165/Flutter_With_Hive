@@ -10,8 +10,8 @@ class HiveDatabase {
   StreamController? streamController;
 
   Future<void> databaseInit() async {
-    await Hive.setDatabasePath();
     streamController = StreamController();
+    await Hive.setDatabasePath();
     isInitialse = true;
     await initialiseBoxAndGetBox(boxName);
     sinkDataToStream();

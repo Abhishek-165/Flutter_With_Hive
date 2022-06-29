@@ -1,3 +1,4 @@
+import 'package:databaseapp/services/hive_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -18,5 +19,11 @@ extension HiveExtend on HiveInterface {
 extension StringToInt on String {
   int toIntParse() {
     return int.parse(this);
+  }
+}
+
+extension HiveDatabaseExtend on HiveDatabase {
+  bool isNotNull() {
+    return this != null;
   }
 }

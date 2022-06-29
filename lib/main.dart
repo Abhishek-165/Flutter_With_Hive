@@ -1,3 +1,4 @@
+import 'package:databaseapp/services/extension.dart';
 import 'package:databaseapp/services/hive_provider.dart';
 import 'package:databaseapp/utils/helper.dart';
 import 'package:flutter/material.dart';
@@ -24,17 +25,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isLoading = true;
+//  bool isLoading = true;
   @override
   void initState() {
     super.initState();
-    HiveProvider().getDatabaseInstance().then((value) {
-      if (value != null) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    });
+    HiveProvider().getDatabaseInstance();
   }
 
   _buildListView() {
@@ -43,8 +38,6 @@ class _HomePageState extends State<HomePage> {
         builder: ((context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.connectionState == ConnectionState.none) {
-            return const Center(child: Text("Database Not Initialised"));
           } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData && snapshot.data.isInitialise) {
               return SafeArea(
@@ -65,11 +58,9 @@ class _HomePageState extends State<HomePage> {
                       );
                     }),
               );
-            } else {
-              return const Center(child: CircularProgressIndicator());
             }
           }
-          return const SizedBox();
+          return const Center(child: CircularProgressIndicator());
         }));
   }
 
@@ -80,10 +71,6 @@ class _HomePageState extends State<HomePage> {
           onPressed: () => showCustomModalSheet(context),
           child: const Icon(Icons.add),
         ),
-        body: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : _buildListView());
+        body: _buildListView());
   }
 }
